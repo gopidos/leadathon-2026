@@ -7,9 +7,8 @@ const path = require('path');
 try { require('./lib/load-env')(); } catch (_) {}
 
 const PORT = process.env.PORT || 5173;
-const ROOT_DIR = __dirname;
+const ROOT_DIR = path.join(__dirname, 'public'); // static files live in public/
 const API_DIR = path.join(__dirname, 'api');
-const BLOCKED = ['/lib', '/node_modules'];
 
 const MIME = {
   '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8',
@@ -65,7 +64,7 @@ const server = http.createServer(async (req, res) => {
   if (urlPath.startsWith('/api/')) return handleApi(req, res, urlPath, search);
 
   if (urlPath === '/') urlPath = '/index.html';
-  if (BLOCKED.some((b) => urlPath.startsWith(b)) || urlPath.includes('/.')) { res.writeHead(403); return res.end('Forbidden'); }
+  if (urlPath.includes('/.')) { res.writeHead(403); return res.end('Forbidden'); }
   if (!path.extname(urlPath) && fs.existsSync(path.join(ROOT_DIR, urlPath + '.html'))) urlPath += '.html';
 
   const filePath = path.join(ROOT_DIR, path.normalize(urlPath));

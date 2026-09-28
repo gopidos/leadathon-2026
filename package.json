@@ -1,15 +1,12 @@
 {
-  "name": "leadathon-2026-landing",
+  "name": "leadathon-2026",
   "version": "1.0.0",
   "private": true,
-  "description": "LEADATHON 2026 landing page — Vercel + Supabase (free tier).",
+  "description": "LEADATHON 2026 — landing, registration, track pages, admin (Vercel + Supabase + Resend).",
   "scripts": {
-    "dev": "node server.js",
-    "start": "node server.js"
+    "dev": "node server.js"
   },
-  "engines": {
-    "node": ">=18"
-  },
+  "engines": { "node": ">=18" },
   "dependencies": {
     "qrcode": "^1.5.4",
     "resend": "^4.0.1"
