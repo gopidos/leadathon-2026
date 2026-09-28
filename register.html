@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Register · LEADATHON 2026</title>
+<meta name="description" content="Register your team for LEADATHON 2026 — Youth Empowerment & Innovation Hackathon." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --navy:#030164;--navy-2:#0a0a7a;--gold:#FFD758;--gold-soft:#FCE59A;
+    --bg:#ffffff;--bg-tint:#f7f8fc;--ink:#0c0d2b;--muted:#5b5f7d;
+    --line:rgba(3,1,100,.10);--glass:rgba(255,255,255,.55);--glass-strong:rgba(255,255,255,.72);
+    --radius:20px;--maxw:1180px;--shadow:0 10px 40px -12px rgba(3,1,100,.18);--shadow-lg:0 24px 60px -20px rgba(3,1,100,.30);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,-apple-system,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh;position:relative;overflow-x:hidden}
+  h1,h2,h3,h4{font-family:'Fraunces',Georgia,serif;line-height:1.1;letter-spacing:-0.01em;color:var(--navy);font-weight:600}
+  a{color:inherit;text-decoration:none}
+  svg{display:block}
+  .icon{width:22px;height:22px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+  .blob{position:fixed;border-radius:50%;filter:blur(80px);z-index:0;pointer-events:none;opacity:.5}
+  .blob.gold{background:radial-gradient(circle,var(--gold),transparent 70%);width:520px;height:520px;top:-180px;right:-140px}
+  .blob.soft{background:radial-gradient(circle,var(--gold-soft),transparent 70%);width:480px;height:480px;bottom:-220px;left:-160px}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;background:var(--navy);color:#fff;font-weight:600;padding:13px 24px;border-radius:999px;border:none;cursor:pointer;font-size:.96rem;font-family:inherit;transition:transform .16s,box-shadow .16s,background .16s,opacity .16s;box-shadow:0 10px 26px -10px rgba(3,1,100,.6);white-space:nowrap}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 16px 32px -10px rgba(3,1,100,.7)}
+  .btn .icon{width:18px;height:18px}
+  .btn.gold{background:var(--gold);color:var(--navy);box-shadow:0 10px 26px -10px rgba(255,215,88,.9)}
+  .btn.gold:hover{background:#ffcf3d}
+  .btn.ghost{background:var(--glass);color:var(--navy);border:1px solid var(--line);backdrop-filter:blur(10px);box-shadow:none}
+  .btn.ghost:hover{border-color:var(--navy)}
+  .btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.72);backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%);border-bottom:1px solid var(--line)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:66px}
+  .logo{display:flex;align-items:center;gap:11px;font-family:'Inter';font-weight:700;font-size:1.06rem;color:var(--navy)}
+  .logo .mark{width:34px;height:34px;border-radius:10px;background:var(--navy);display:grid;place-items:center}
+  .logo .mark .icon{color:var(--gold);width:19px;height:19px;stroke-width:2.2}
+  .back{display:inline-flex;align-items:center;gap:8px;color:var(--muted);font-weight:500;font-size:.9rem}
+  .back:hover{color:var(--navy)}
+  .back .icon{width:17px;height:17px}
+
+  /* STEPPER (Blacklane-style) */
+  .stepper-wrap{position:relative;z-index:2;padding:34px 0 8px}
+  .stepper{display:flex;align-items:center;justify-content:center;gap:0;max-width:720px;margin:0 auto}
+  .st{display:flex;flex-direction:column;align-items:center;gap:9px;flex:0 0 auto;position:relative}
+  .st .dot{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--glass-strong);border:1.5px solid var(--line);color:var(--muted);font-family:'Inter';font-weight:700;backdrop-filter:blur(10px);transition:.25s;z-index:2}
+  .st .dot .icon{width:20px;height:20px}
+  .st .lbl{font-size:.78rem;font-weight:600;color:var(--muted);transition:.25s;white-space:nowrap}
+  .st.active .dot{background:var(--navy);border-color:var(--navy);color:var(--gold);box-shadow:0 10px 24px -8px rgba(3,1,100,.55)}
+  .st.active .lbl{color:var(--navy)}
+  .st.done .dot{background:var(--gold);border-color:var(--gold);color:var(--navy)}
+  .st.done .lbl{color:var(--navy)}
+  .bar{flex:1 1 auto;height:2px;background:var(--line);margin:0 6px;position:relative;top:-14px;border-radius:2px;min-width:20px}
+  .bar span{position:absolute;inset:0;width:0;background:var(--gold);border-radius:2px;transition:width .35s}
+  @media(max-width:640px){.st .lbl{display:none}.stepper{max-width:340px}}
+
+  /* LAYOUT */
+  main{position:relative;z-index:2;padding:20px 0 70px}
+  .grid{display:grid;grid-template-columns:1fr 380px;gap:26px;align-items:start}
+  @media(max-width:960px){.grid{grid-template-columns:1fr}}
+
+  .panel{border-radius:var(--radius);padding:34px;background:var(--glass-strong);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(255,255,255,.85);box-shadow:var(--shadow-lg)}
+  @media(max-width:560px){.panel{padding:24px 20px}}
+  .step-head{margin-bottom:24px}
+  .step-head .kick{display:inline-flex;align-items:center;gap:8px;font-size:.74rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);background:var(--gold-soft);padding:6px 13px;border-radius:999px;margin-bottom:14px}
+  .step-head .kick .icon{width:14px;height:14px}
+  .step-head h2{font-size:1.55rem;font-weight:700}
+  .step-head p{color:var(--muted);margin-top:8px;font-size:.95rem}
+
+  .field{margin-bottom:16px}
+  .field label{display:block;font-size:.82rem;font-weight:600;color:var(--navy);margin-bottom:7px}
+  .field .inp{position:relative;display:flex;align-items:center}
+  .field .inp>.icon{position:absolute;left:14px;width:18px;height:18px;color:var(--muted);pointer-events:none}
+  .field input,.field select,.field textarea{width:100%;background:rgba(255,255,255,.85);border:1.5px solid var(--line);border-radius:12px;padding:13px 14px 13px 42px;color:var(--ink);font-size:.97rem;font-family:inherit;transition:border-color .15s,box-shadow .15s}
+  .field textarea{padding-left:14px;min-height:92px;resize:vertical}
+  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 4px rgba(3,1,100,.10)}
+  .field input::placeholder,.field textarea::placeholder{color:#9498b5}
+  .field select{appearance:none;-webkit-appearance:none;cursor:pointer;padding-right:40px;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23030164' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'><path d='m6 9 6 6 6-6'/></svg>");background-repeat:no-repeat;background-position:right 14px center}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:520px){.row2{grid-template-columns:1fr}}
+  .err{color:#d83a52;font-size:.78rem;margin-top:6px;display:none}
+  .field.bad input,.field.bad select,.field.bad textarea{border-color:#d83a52}
+  .field.bad .err{display:block}
+
+  /* Participant card */
+  .pcard{border-radius:16px;padding:22px;background:var(--glass);border:1px solid rgba(255,255,255,.8);box-shadow:var(--shadow);margin-bottom:18px;backdrop-filter:blur(14px)}
+  .pcard .ptitle{display:flex;align-items:center;gap:11px;margin-bottom:16px}
+  .pcard .ptitle .n{width:34px;height:34px;border-radius:9px;background:var(--navy);color:var(--gold);display:grid;place-items:center;font-family:'Inter';font-weight:700;font-size:.9rem;flex-shrink:0}
+  .pcard .ptitle b{font-family:'Inter';color:var(--navy);font-size:1.02rem}
+  .pcard .ptitle .tag{margin-left:auto;font-size:.72rem;color:var(--muted);background:rgba(255,255,255,.7);border:1px solid var(--line);padding:3px 10px;border-radius:999px}
+  .inst{display:none}
+  .inst.show{display:block;animation:fade .3s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+
+  /* Radio pills (stage) */
+  .pills{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:520px){.pills{grid-template-columns:1fr}}
+  .pill-opt{position:relative;cursor:pointer}
+  .pill-opt input{position:absolute;opacity:0;pointer-events:none}
+  .pill-opt .box{display:flex;align-items:flex-start;gap:12px;padding:16px;border-radius:14px;background:rgba(255,255,255,.8);border:1.5px solid var(--line);transition:.18s}
+  .pill-opt .box .ic{width:40px;height:40px;border-radius:11px;background:var(--gold-soft);display:grid;place-items:center;flex-shrink:0}
+  .pill-opt .box .ic .icon{color:var(--navy);width:21px;height:21px}
+  .pill-opt .box b{font-family:'Inter';color:var(--navy);font-size:.98rem;display:block}
+  .pill-opt .box small{color:var(--muted);font-size:.82rem}
+  .pill-opt input:checked+.box{border-color:var(--navy);background:#fff;box-shadow:0 0 0 4px rgba(3,1,100,.08)}
+  .pill-opt input:checked+.box .ic{background:var(--navy)}
+  .pill-opt input:checked+.box .ic .icon{color:var(--gold)}
+
+  /* Consent */
+  .consent{display:flex;gap:13px;align-items:flex-start;padding:18px;border-radius:14px;background:rgba(255,255,255,.75);border:1.5px solid var(--line);margin-top:8px;cursor:pointer}
+  .consent input{position:absolute;opacity:0}
+  .consent .cb{width:24px;height:24px;border-radius:7px;border:1.5px solid var(--line);background:#fff;display:grid;place-items:center;flex-shrink:0;transition:.15s}
+  .consent .cb .icon{width:16px;height:16px;color:#fff;opacity:0;transition:.15s}
+  .consent input:checked+.cb{background:var(--navy);border-color:var(--navy)}
+  .consent input:checked+.cb .icon{color:var(--gold);opacity:1}
+  .consent span{font-size:.9rem;color:var(--muted)}
+  .consent.bad .cb{border-color:#d83a52}
+
+  /* Review */
+  .rev{border-radius:14px;background:rgba(255,255,255,.7);border:1px solid var(--line);padding:18px 20px;margin-bottom:16px}
+  .rev h4{font-size:.98rem;display:flex;align-items:center;gap:9px;margin-bottom:12px}
+  .rev h4 .icon{width:17px;height:17px;color:var(--navy)}
+  .rev .kv{display:flex;justify-content:space-between;gap:14px;padding:5px 0;font-size:.9rem}
+  .rev .kv .k{color:var(--muted)}
+  .rev .kv .v{color:var(--ink);font-weight:600;text-align:right}
+  .rev .pmini{padding:10px 0;border-top:1px dashed var(--line)}
+  .rev .pmini:first-of-type{border-top:none}
+  .rev .pmini .nm{font-weight:600;color:var(--navy);font-size:.92rem}
+  .rev .pmini .dt{color:var(--muted);font-size:.82rem;margin-top:2px}
+
+  /* Nav buttons */
+  .stepnav{display:flex;justify-content:space-between;gap:14px;margin-top:26px}
+  .stepnav .btn{flex:0 0 auto}
+  .stepnav .spacer{flex:1}
+
+  /* SUMMARY SIDEBAR */
+  .summary{position:sticky;top:90px;border-radius:var(--radius);padding:26px;background:var(--glass-strong);backdrop-filter:blur(22px) saturate(170%);-webkit-backdrop-filter:blur(22px) saturate(170%);border:1px solid rgba(255,255,255,.85);box-shadow:var(--shadow)}
+  .summary .sh{display:flex;align-items:center;gap:11px;padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid var(--line)}
+  .summary .sh .ic{width:42px;height:42px;border-radius:11px;background:var(--navy);display:grid;place-items:center;flex-shrink:0}
+  .summary .sh .ic .icon{color:var(--gold);width:22px;height:22px}
+  .summary .sh b{font-family:'Inter';color:var(--navy);font-size:1.05rem;display:block;line-height:1.2}
+  .summary .sh span{font-size:.82rem;color:var(--muted)}
+  .summary .srow{display:flex;justify-content:space-between;gap:12px;padding:8px 0;font-size:.9rem}
+  .summary .srow .k{color:var(--muted);display:flex;align-items:center;gap:8px}
+  .summary .srow .k .icon{width:16px;height:16px;color:var(--navy)}
+  .summary .srow .v{color:var(--ink);font-weight:600;text-align:right}
+  .summary .muted-v{color:#a2a6bf;font-weight:500;font-style:italic}
+  .summary .note{margin-top:16px;padding-top:16px;border-top:1px solid var(--line);font-size:.8rem;color:var(--muted);display:flex;gap:8px;align-items:flex-start}
+  .summary .note .icon{width:15px;height:15px;color:var(--navy);flex-shrink:0;margin-top:2px}
+  @media(max-width:960px){.summary{position:static;margin-top:22px}}
+
+  /* Success */
+  .done-view{display:none;text-align:center;padding:30px 10px}
+  .done-view .tick{width:82px;height:82px;border-radius:50%;background:var(--navy);display:grid;place-items:center;margin:0 auto 22px;box-shadow:0 14px 34px -8px rgba(3,1,100,.5)}
+  .done-view .tick .icon{color:var(--gold);width:40px;height:40px;stroke-width:2.5}
+  .done-view h2{font-size:1.8rem}
+  .done-view p{color:var(--muted);margin-top:12px;max-width:460px;margin-inline:auto}
+  .done-view .ref{display:inline-flex;align-items:center;gap:9px;margin-top:20px;background:var(--gold-soft);color:var(--navy);font-family:'Inter';font-weight:700;padding:10px 18px;border-radius:999px}
+</style>
+</head>
+<body>
+<div class="blob gold"></div>
+<div class="blob soft"></div>
+
+<!-- ICON SPRITE -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-arrow-l" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13A4 4 0 0 1 16 11"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-briefcase" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
+  <symbol id="i-cap" viewBox="0 0 24 24"><path d="m22 9-10-4L2 9l10 4 10-4ZM6 11v5c0 1 2.7 2.5 6 2.5s6-1.5 6-2.5v-5M22 9v6"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1h6c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2Z"/></symbol>
+  <symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0 5 5l-9 9a2.8 2.8 0 0 1-4-4l9-9-1-1Z"/></symbol>
+  <symbol id="i-clip" viewBox="0 0 24 24"><rect x="6" y="4" width="12" height="18" rx="2"/><path d="M9 4V3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1M9 10h6M9 14h6M9 18h4"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5M3 17l9 5 9-5"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 22V4M4 4c3-2 7 2 10 0v9c-3 2-7-2-10 0"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.5 8.5 8 11 4.5-2.5 8-6 8-11V5l-8-3Z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
+</defs></svg>
+
+<nav>
+  <div class="wrap nav-in">
+    <a class="logo" href="/"><span class="mark"><svg class="icon"><use href="#i-bolt"/></svg></span>LEADATHON</a>
+    <a class="back" href="/"><svg class="icon"><use href="#i-arrow-l"/></svg> Back to site</a>
+  </div>
+</nav>
+
+<div class="stepper-wrap">
+  <div class="wrap">
+    <div class="stepper" id="stepper">
+      <div class="st" data-st="1"><div class="dot"><span class="num">1</span><svg class="icon tick" style="display:none"><use href="#i-check"/></svg></div><div class="lbl">Team</div></div>
+      <div class="bar"><span></span></div>
+      <div class="st" data-st="2"><div class="dot"><span class="num">2</span><svg class="icon tick" style="display:none"><use href="#i-check"/></svg></div><div class="lbl">Participants</div></div>
+      <div class="bar"><span></span></div>
+      <div class="st" data-st="3"><div class="dot"><span class="num">3</span><svg class="icon tick" style="display:none"><use href="#i-check"/></svg></div><div class="lbl">Project</div></div>
+      <div class="bar"><span></span></div>
+      <div class="st" data-st="4"><div class="dot"><span class="num">4</span><svg class="icon tick" style="display:none"><use href="#i-check"/></svg></div><div class="lbl">Confirm</div></div>
+    </div>
+  </div>
+</div>
+
+<main>
+  <div class="wrap grid">
+    <!-- FORM PANEL -->
+    <div class="panel" id="panel">
+
+      <!-- STEP 1: TEAM -->
+      <section class="stepsec" data-step="1">
+        <div class="step-head">
+          <span class="kick"><svg class="icon"><use href="#i-users"/></svg> Step 1 · Your Team</span>
+          <h2>Team details</h2>
+          <p>Start with your team name and how many members will participate (1–5).</p>
+        </div>
+        <div class="field" id="f-teamName">
+          <label for="teamName">Team Name</label>
+          <div class="inp"><svg class="icon"><use href="#i-users"/></svg><input type="text" id="teamName" placeholder="e.g. Team Innovators" /></div>
+          <div class="err">Please enter your team name.</div>
+        </div>
+        <div class="field" id="f-count">
+          <label for="count">Number of Participants</label>
+          <div class="inp"><svg class="icon"><use href="#i-user"/></svg>
+            <select id="count">
+              <option value="">Select team size</option>
+              <option value="1">1 — Solo</option>
+              <option value="2">2 members</option>
+              <option value="3">3 members</option>
+              <option value="4">4 members</option>
+              <option value="5">5 members</option>
+            </select>
+          </div>
+          <div class="err">Select how many participants (1–5).</div>
+        </div>
+      </section>
+
+      <!-- STEP 2: PARTICIPANTS -->
+      <section class="stepsec" data-step="2" style="display:none">
+        <div class="step-head">
+          <span class="kick"><svg class="icon"><use href="#i-user"/></svg> Step 2 · Participants</span>
+          <h2>Who's on the team?</h2>
+          <p>Add each member's details. Students, please include your institution.</p>
+        </div>
+        <div id="participants"></div>
+      </section>
+
+      <!-- STEP 3: PROJECT -->
+      <section class="stepsec" data-step="3" style="display:none">
+        <div class="step-head">
+          <span class="kick"><svg class="icon"><use href="#i-target"/></svg> Step 3 · Your Project</span>
+          <h2>What are you solving?</h2>
+          <p>Choose the problem statement you're tackling and your current stage.</p>
+        </div>
+        <div class="field" id="f-track">
+          <label for="track">Challenge Category</label>
+          <div class="inp"><svg class="icon"><use href="#i-layers"/></svg>
+            <select id="track"><option value="">Select a category</option></select>
+          </div>
+          <div class="err">Please select a challenge category.</div>
+        </div>
+        <div class="field" id="f-problem">
+          <label for="problem">Problem Statement</label>
+          <div class="inp"><svg class="icon"><use href="#i-clip"/></svg>
+            <select id="problem" disabled><option value="">Select a category first</option></select>
+          </div>
+          <div class="err">Please select a problem statement.</div>
+        </div>
+        <div class="field">
+          <label>Current Stage of the Project</label>
+          <div class="pills" id="f-stage">
+            <label class="pill-opt">
+              <input type="radio" name="stage" value="Ideation" />
+              <span class="box"><span class="ic"><svg class="icon"><use href="#i-bulb"/></svg></span><span><b>Ideation</b><small>Concept &amp; design phase</small></span></span>
+            </label>
+            <label class="pill-opt">
+              <input type="radio" name="stage" value="Working Prototype" />
+              <span class="box"><span class="ic"><svg class="icon"><use href="#i-wrench"/></svg></span><span><b>Working Prototype</b><small>Built &amp; functional</small></span></span>
+            </label>
+          </div>
+          <div class="err" id="err-stage" style="display:none">Please select your current stage.</div>
+        </div>
+        <div class="field">
+          <label for="idea">One-line Idea Summary <span style="color:var(--muted);font-weight:400">(optional)</span></label>
+          <textarea id="idea" placeholder="Briefly describe your solution approach…"></textarea>
+        </div>
+      </section>
+
+      <!-- STEP 4: CONFIRM -->
+      <section class="stepsec" data-step="4" style="display:none">
+        <div class="step-head">
+          <span class="kick"><svg class="icon"><use href="#i-flag"/></svg> Step 4 · Review &amp; Confirm</span>
+          <h2>Review your registration</h2>
+          <p>Check everything is correct, accept the terms, and submit.</p>
+        </div>
+        <div id="review"></div>
+        <label class="consent" id="consentWrap">
+          <input type="checkbox" id="consent" />
+          <span class="cb"><svg class="icon"><use href="#i-check"/></svg></span>
+          <span>I confirm the details above are accurate and I agree to be contacted by the We The Leaders Foundation regarding LEADATHON 2026. I accept the event terms and code of conduct.</span>
+        </label>
+        <div class="err" id="err-consent" style="display:none;margin-top:8px">Please accept the terms to continue.</div>
+      </section>
+
+      <!-- SUCCESS -->
+      <div class="done-view" id="doneView">
+        <div class="tick"><svg class="icon"><use href="#i-check"/></svg></div>
+        <h2>Registration submitted!</h2>
+        <p id="doneMsg">Your team is registered for LEADATHON 2026. We'll email you with next steps, your team QR pass and event schedule.</p>
+        <div class="ref"><svg class="icon"><use href="#i-users"/></svg> <span id="doneTeam">Team</span></div>
+        <div style="margin-top:26px"><a href="/" class="btn ghost"><svg class="icon"><use href="#i-arrow-l"/></svg> Back to home</a></div>
+      </div>
+
+      <!-- NAV BUTTONS -->
+      <div class="stepnav" id="stepnav">
+        <button class="btn ghost" id="backBtn" style="visibility:hidden"><svg class="icon"><use href="#i-arrow-l"/></svg> Back</button>
+        <div class="spacer"></div>
+        <button class="btn" id="nextBtn">Continue <svg class="icon"><use href="#i-arrow"/></svg></button>
+      </div>
+    </div>
+
+    <!-- SUMMARY SIDEBAR -->
+    <aside class="summary" id="summary">
+      <div class="sh">
+        <span class="ic"><svg class="icon"><use href="#i-bolt"/></svg></span>
+        <div><b>LEADATHON 2026</b><span>Registration summary</span></div>
+      </div>
+      <div class="srow"><span class="k"><svg class="icon"><use href="#i-users"/></svg> Team</span><span class="v" id="s-team"><span class="muted-v">Not set</span></span></div>
+      <div class="srow"><span class="k"><svg class="icon"><use href="#i-user"/></svg> Members</span><span class="v" id="s-count"><span class="muted-v">—</span></span></div>
+      <div class="srow"><span class="k"><svg class="icon"><use href="#i-layers"/></svg> Category</span><span class="v" id="s-category"><span class="muted-v">Not set</span></span></div>
+      <div class="srow"><span class="k"><svg class="icon"><use href="#i-clip"/></svg> Problem</span><span class="v" id="s-problem"><span class="muted-v">Not set</span></span></div>
+      <div class="srow"><span class="k"><svg class="icon"><use href="#i-target"/></svg> Stage</span><span class="v" id="s-stage"><span class="muted-v">—</span></span></div>
+      <div class="note"><svg class="icon"><use href="#i-lock"/></svg> Your details are used only for LEADATHON 2026. QR pass &amp; confirmation email follow after submission.</div>
+    </aside>
+  </div>
+</main>
+
+<script src="/tracks-data.js"></script>
+<script>
+  // ---- Challenge tracks & problem statements (single source of truth) ----
+  const TRACKS = window.LEADATHON_TRACKS || [];
+  const PROFILES = ['Student','Working Professional','Entrepreneur','Job Seeker','Research Scientist'];
+
+  const $ = s => document.querySelector(s);
+  const $$ = s => Array.from(document.querySelectorAll(s));
+
+  // Populate the category select; the problem select is filtered by category.
+  (function(){
+    const tsel = $('#track');
+    TRACKS.forEach(tr=>{ const o=document.createElement('option'); o.value=tr.slug; o.textContent=tr.name; tsel.appendChild(o); });
+  })();
+
+  function onTrackChange(){
+    const tr = TRACKS.find(x=>x.slug === $('#track').value);
+    const p = $('#problem');
+    if(!tr){
+      p.disabled = true;
+      p.innerHTML = '<option value="">Select a category first</option>';
+    } else {
+      p.disabled = false;
+      p.innerHTML = '<option value="">Select a problem statement</option>' +
+        tr.problems.map(pr=>`<option value="${pr.code}">${pr.code} · ${pr.title}</option>`).join('');
+    }
+    updateSummary();
+  }
+  $('#track').addEventListener('change', onTrackChange);
+
+  // Resolve the selected {track, problem} objects
+  function selectedProblem(){
+    const tr = TRACKS.find(x=>x.slug === $('#track').value) || null;
+    const prob = tr ? (tr.problems.find(p=>p.code === $('#problem').value) || null) : null;
+    return { tr, prob };
+  }
+
+  // State
+  let step = 1;
+  let count = 0;
+
+  // Prefill from landing hero (sessionStorage)
+  try{
+    const seed = JSON.parse(sessionStorage.getItem('leadathon_team')||'null');
+    if(seed && seed.teamName){ $('#teamName').value = seed.teamName; }
+    if(seed && seed.count){ $('#count').value = String(seed.count); }
+  }catch(e){}
+
+  // Build participant cards for a given count
+  function buildParticipants(n){
+    const box = $('#participants');
+    const existing = {};
+    // preserve typed values if rebuilding
+    $$('#participants .pcard').forEach((c,i)=>{
+      existing[i] = {
+        name: c.querySelector('.p-name').value,
+        phone: c.querySelector('.p-phone').value,
+        email: c.querySelector('.p-email').value,
+        profile: c.querySelector('.p-profile').value,
+        inst: c.querySelector('.p-inst').value,
+      };
+    });
+    box.innerHTML = '';
+    for(let i=0;i<n;i++){
+      const v = existing[i] || {name:'',phone:'',email:'',profile:'',inst:''};
+      const card = document.createElement('div');
+      card.className = 'pcard';
+      card.innerHTML = `
+        <div class="ptitle"><span class="n">${i+1}</span><b>Participant ${i+1}</b>${i===0?'<span class="tag">Team Lead</span>':''}</div>
+        <div class="field p-f-name"><label>Full Name</label><div class="inp"><svg class="icon"><use href="#i-user"/></svg><input class="p-name" type="text" placeholder="Full name" value="${v.name.replace(/"/g,'&quot;')}"/></div><div class="err">Enter a name.</div></div>
+        <div class="row2">
+          <div class="field p-f-phone"><label>Mobile Number</label><div class="inp"><svg class="icon"><use href="#i-phone"/></svg><input class="p-phone" type="tel" inputmode="numeric" placeholder="10-digit mobile" value="${v.phone.replace(/"/g,'&quot;')}"/></div><div class="err">Enter a valid 10-digit number.</div></div>
+          <div class="field p-f-email"><label>Email ID</label><div class="inp"><svg class="icon"><use href="#i-mail"/></svg><input class="p-email" type="email" placeholder="name@email.com" value="${v.email.replace(/"/g,'&quot;')}"/></div><div class="err">Enter a valid email.</div></div>
+        </div>
+        <div class="field p-f-profile"><label>Current Profile</label><div class="inp"><svg class="icon"><use href="#i-briefcase"/></svg>
+          <select class="p-profile"><option value="">Select profile</option>${PROFILES.map(p=>`<option${v.profile===p?' selected':''}>${p}</option>`).join('')}</select>
+        </div><div class="err">Select a profile.</div></div>
+        <div class="field inst p-inst-wrap"><label>Institution / College</label><div class="inp"><svg class="icon"><use href="#i-cap"/></svg><input class="p-inst" type="text" placeholder="Name of your institution" value="${v.inst.replace(/"/g,'&quot;')}"/></div><div class="err">Enter your institution.</div></div>
+      `;
+      box.appendChild(card);
+      const profileSel = card.querySelector('.p-profile');
+      const instWrap = card.querySelector('.p-inst-wrap');
+      const toggleInst = ()=>{ instWrap.classList.toggle('show', profileSel.value === 'Student'); };
+      profileSel.addEventListener('change', toggleInst);
+      toggleInst();
+    }
+  }
+
+  // ---- Validation helpers ----
+  const validEmail = v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  const validPhone = v => /^\d{10}$/.test(String(v).replace(/\D/g,''));
+  const setBad = (el,bad)=> el && el.classList.toggle('bad', bad);
+
+  function validateStep(s){
+    if(s===1){
+      const tn = $('#teamName').value.trim();
+      const c = $('#count').value;
+      setBad($('#f-teamName'), tn.length<2);
+      setBad($('#f-count'), !c);
+      return tn.length>=2 && !!c;
+    }
+    if(s===2){
+      let ok = true;
+      $$('#participants .pcard').forEach(card=>{
+        const name = card.querySelector('.p-name');
+        const phone = card.querySelector('.p-phone');
+        const email = card.querySelector('.p-email');
+        const prof = card.querySelector('.p-profile');
+        const inst = card.querySelector('.p-inst');
+        const bName = name.value.trim().length<2; setBad(card.querySelector('.p-f-name'), bName); ok = ok && !bName;
+        const bPhone = !validPhone(phone.value); setBad(card.querySelector('.p-f-phone'), bPhone); ok = ok && !bPhone;
+        const bEmail = !validEmail(email.value.trim()); setBad(card.querySelector('.p-f-email'), bEmail); ok = ok && !bEmail;
+        const bProf = !prof.value; setBad(card.querySelector('.p-f-profile'), bProf); ok = ok && !bProf;
+        const needInst = prof.value==='Student';
+        const bInst = needInst && inst.value.trim().length<2;
+        setBad(card.querySelector('.p-inst-wrap'), bInst); ok = ok && !bInst;
+      });
+      return ok;
+    }
+    if(s===3){
+      const cat = $('#track').value;
+      const p = $('#problem').value;
+      const stage = $$('input[name=stage]').find(r=>r.checked);
+      setBad($('#f-track'), !cat);
+      setBad($('#f-problem'), !p);
+      $('#err-stage').style.display = stage ? 'none' : 'block';
+      return !!cat && !!p && !!stage;
+    }
+    if(s===4){
+      const c = $('#consent').checked;
+      $('#consentWrap').classList.toggle('bad', !c);
+      $('#err-consent').style.display = c ? 'none' : 'block';
+      return c;
+    }
+    return true;
+  }
+
+  // ---- Data collection ----
+  function collect(){
+    const participants = $$('#participants .pcard').map(card=>{
+      const profile = card.querySelector('.p-profile').value;
+      const o = {
+        name: card.querySelector('.p-name').value.trim(),
+        phone: card.querySelector('.p-phone').value.replace(/\D/g,''),
+        email: card.querySelector('.p-email').value.trim().toLowerCase(),
+        profile,
+      };
+      if(profile==='Student') o.institution = card.querySelector('.p-inst').value.trim();
+      return o;
+    });
+    const stage = ($$('input[name=stage]').find(r=>r.checked)||{}).value || '';
+    const { tr, prob } = selectedProblem();
+    return {
+      teamName: $('#teamName').value.trim(),
+      participantsCount: Number($('#count').value)||participants.length,
+      participants,
+      problemCategory: tr ? tr.name : '',
+      problemCode: prob ? prob.code : '',
+      problemTitle: prob ? prob.title : '',
+      problemStatement: (tr && prob) ? `${tr.name} — ${prob.code} — ${prob.title}` : '',
+      projectStage: stage,
+      ideaSummary: $('#idea').value.trim(),
+      consent: $('#consent').checked,
+    };
+  }
+
+  // ---- Summary sidebar live update ----
+  function updateSummary(){
+    const tn = $('#teamName').value.trim();
+    const c = $('#count').value;
+    const { tr, prob } = selectedProblem();
+    const stage = ($$('input[name=stage]').find(r=>r.checked)||{}).value;
+    $('#s-team').innerHTML = tn ? tn : '<span class="muted-v">Not set</span>';
+    $('#s-count').innerHTML = c ? (c+ ' member'+(c>1?'s':'')) : '<span class="muted-v">—</span>';
+    $('#s-category').innerHTML = tr ? tr.name : '<span class="muted-v">Not set</span>';
+    $('#s-problem').innerHTML = prob ? prob.title : '<span class="muted-v">Not set</span>';
+    $('#s-stage').innerHTML = stage ? stage : '<span class="muted-v">—</span>';
+  }
+  document.addEventListener('input', updateSummary);
+  document.addEventListener('change', updateSummary);
+
+  // ---- Review render (step 4) ----
+  function renderReview(){
+    const d = collect();
+    let html = `
+      <div class="rev">
+        <h4><svg class="icon"><use href="#i-users"/></svg> Team</h4>
+        <div class="kv"><span class="k">Team name</span><span class="v">${esc(d.teamName)}</span></div>
+        <div class="kv"><span class="k">Members</span><span class="v">${d.participantsCount}</span></div>
+      </div>
+      <div class="rev">
+        <h4><svg class="icon"><use href="#i-user"/></svg> Participants</h4>
+        ${d.participants.map((p,i)=>`<div class="pmini"><div class="nm">${i+1}. ${esc(p.name)} ${i===0?'· Team Lead':''}</div><div class="dt">${esc(p.phone)} · ${esc(p.email)} · ${esc(p.profile)}${p.institution?' · '+esc(p.institution):''}</div></div>`).join('')}
+      </div>
+      <div class="rev">
+        <h4><svg class="icon"><use href="#i-target"/></svg> Project</h4>
+        <div class="kv"><span class="k">Category</span><span class="v">${esc(d.problemCategory)}</span></div>
+        <div class="kv"><span class="k">Problem statement</span><span class="v">${esc(d.problemCode)} · ${esc(d.problemTitle)}</span></div>
+        <div class="kv"><span class="k">Current stage</span><span class="v">${esc(d.projectStage)}</span></div>
+        ${d.ideaSummary?`<div class="kv"><span class="k">Idea</span><span class="v">${esc(d.ideaSummary)}</span></div>`:''}
+      </div>`;
+    $('#review').innerHTML = html;
+  }
+  function esc(s){ return String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+  // ---- Stepper UI ----
+  function renderStepper(){
+    $$('.st').forEach(st=>{
+      const n = Number(st.dataset.st);
+      st.classList.toggle('active', n===step);
+      st.classList.toggle('done', n<step);
+      st.querySelector('.num').style.display = n<step ? 'none':'inline';
+      st.querySelector('.tick').style.display = n<step ? 'block':'none';
+    });
+    $$('.bar span').forEach((b,i)=>{ b.style.width = (i < step-1) ? '100%' : '0'; });
+  }
+
+  function showStep(s){
+    step = s;
+    $$('.stepsec').forEach(sec=> sec.style.display = (Number(sec.dataset.step)===s) ? 'block':'none');
+    $('#backBtn').style.visibility = s>1 ? 'visible':'hidden';
+    const next = $('#nextBtn');
+    if(s===4){ next.innerHTML = 'Register <svg class="icon"><use href="#i-check"/></svg>'; next.classList.add('gold'); }
+    else { next.innerHTML = 'Continue <svg class="icon"><use href="#i-arrow"/></svg>'; next.classList.remove('gold'); }
+    renderStepper();
+    if(s===4) renderReview();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  // ---- Navigation ----
+  $('#nextBtn').addEventListener('click', async ()=>{
+    if(!validateStep(step)) return;
+    if(step===1){ count = Number($('#count').value); buildParticipants(count); showStep(2); return; }
+    if(step<4){ showStep(step+1); return; }
+    // step 4 -> submit
+    await submit();
+  });
+  $('#backBtn').addEventListener('click', ()=>{ if(step>1) showStep(step-1); });
+
+  async function submit(){
+    const btn = $('#nextBtn');
+    btn.disabled = true; btn.innerHTML = 'Submitting…';
+    try{
+      const payload = collect();
+      const res = await fetch('/api/register',{ method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+      if(!res.ok) throw new Error('bad');
+      // success view
+      $$('.stepsec').forEach(s=>s.style.display='none');
+      $('#stepnav').style.display='none';
+      $('#doneView').style.display='block';
+      $('#doneTeam').textContent = payload.teamName;
+      try{ sessionStorage.removeItem('leadathon_team'); }catch(e){}
+      // mark all steps done
+      step = 5; renderStepper();
+    }catch(e){
+      btn.disabled=false; btn.innerHTML='Register <svg class="icon"><use href="#i-check"/></svg>';
+      alert('Something went wrong submitting your registration. Please try again.');
+    }
+  }
+
+  // Init
+  updateSummary();
+  renderStepper();
+  showStep(1);
+</script>
+</body>
+</html>

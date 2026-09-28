@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Event Pass · LEADATHON 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{--navy:#030164;--gold:#FFD758;--bg:#f6f1e8;--muted:#5b5f7d}
+  *{box-sizing:border-box;margin:0}
+  body{background:var(--bg);font-family:'Inter',system-ui,sans-serif;min-height:100vh;display:grid;place-items:center;padding:24px;color:#0c0d2b}
+  .card{max-width:420px;width:100%;background:#fff;border:1px solid rgba(3,1,100,.1);border-radius:22px;padding:38px 30px;text-align:center;box-shadow:0 24px 60px -24px rgba(3,1,100,.3)}
+  .mark{width:56px;height:56px;border-radius:15px;background:var(--navy);display:grid;place-items:center;margin:0 auto 18px}
+  .mark svg{width:30px;height:30px;stroke:var(--gold);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  h1{font-family:'Fraunces',serif;color:var(--navy);font-size:1.6rem;font-weight:600;margin-bottom:10px}
+  p{color:var(--muted);font-size:.98rem}
+  .badge{display:inline-flex;align-items:center;gap:8px;margin-top:20px;background:#FCE59A;color:var(--navy);font-weight:700;padding:9px 16px;border-radius:999px;font-size:.85rem}
+  .badge svg{width:16px;height:16px;stroke:var(--navy);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="mark"><svg viewBox="0 0 24 24"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z"/></svg></div>
+    <h1>LEADATHON 2026</h1>
+    <p>This is a valid personal event pass. Please present this screen (or your emailed QR) at the LEADATHON check-in desk — our team will scan it to check you in.</p>
+    <div class="badge"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Ready for check-in</div>
+  </div>
+</body>
+</html>

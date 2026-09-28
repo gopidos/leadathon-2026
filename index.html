@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LEADATHON 2026 — Don't Just Tell Us. Build It.</title>
+<meta name="description" content="LEADATHON 2026 — Youth Empowerment & Innovation Hackathon by We The Leaders Foundation. 13 tracks, 60+ real-world problems, 1,000+ innovators in Manapparai, Tamil Nadu. Register your interest." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --navy:#030164;
+    --navy-2:#0a0a7a;
+    --gold:#FFD758;
+    --gold-soft:#FCE59A;
+    --bg:#ffffff;
+    --bg-tint:#f7f8fc;
+    --ink:#0c0d2b;
+    --muted:#5b5f7d;
+    --line:rgba(3,1,100,.10);
+    --glass:rgba(255,255,255,.55);
+    --glass-strong:rgba(255,255,255,.72);
+    --radius:20px;
+    --maxw:1140px;
+    --shadow:0 10px 40px -12px rgba(3,1,100,.18);
+    --shadow-lg:0 24px 60px -20px rgba(3,1,100,.30);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  h1,h2,h3{font-family:'Fraunces',Georgia,serif;line-height:1.08;letter-spacing:-0.01em;color:var(--navy);font-weight:600}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+  svg{display:block}
+  .icon{width:22px;height:22px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+
+  /* Decorative soft blobs so glass reads on white */
+  .blob{position:absolute;border-radius:50%;filter:blur(80px);z-index:0;pointer-events:none;opacity:.38}
+  .blob.gold{background:radial-gradient(circle,var(--gold),transparent 70%)}
+  .blob.navy{background:radial-gradient(circle,rgba(3,1,100,.35),transparent 70%)}
+  .blob.soft{background:radial-gradient(circle,var(--gold-soft),transparent 70%)}
+
+  .grad-text{background:linear-gradient(100deg,var(--navy),var(--navy-2) 60%,#3a3ac0);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .gold-text{color:var(--navy);position:relative;display:inline-block}
+  .gold-text::after{content:'';position:absolute;left:0;right:0;bottom:.06em;height:.34em;background:var(--gold);z-index:-1;border-radius:3px;opacity:.9}
+
+  /* Buttons */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;background:var(--navy);color:#fff;font-weight:600;padding:12px 22px;border-radius:999px;border:none;cursor:pointer;font-size:.95rem;font-family:inherit;transition:transform .16s,box-shadow .16s,background .16s;box-shadow:0 10px 26px -10px rgba(3,1,100,.6)}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 16px 32px -10px rgba(3,1,100,.7)}
+  .btn .icon{width:18px;height:18px}
+  .btn.gold{background:var(--gold);color:var(--navy);box-shadow:0 10px 26px -10px rgba(255,215,88,.9)}
+  .btn.gold:hover{background:#ffcf3d}
+  .btn.ghost{background:var(--glass);color:var(--navy);border:1px solid var(--line);backdrop-filter:blur(10px);box-shadow:none}
+  .btn.ghost:hover{border-color:var(--navy)}
+
+  /* Glass primitives */
+  .glass{background:var(--glass);backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);border:1px solid rgba(255,255,255,.75);box-shadow:var(--shadow)}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.7);backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%);border-bottom:1px solid var(--line)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:66px}
+  .logo{display:flex;align-items:center;gap:11px;font-family:'Inter';font-weight:700;font-size:1.06rem;color:var(--navy)}
+  .logo .mark{width:34px;height:34px;border-radius:10px;background:var(--navy);display:grid;place-items:center}
+  .logo .mark .icon{color:var(--gold);width:19px;height:19px;stroke-width:2.2}
+  .logo b{color:var(--navy)}
+  .logo span.y{color:var(--muted);font-weight:600}
+  .nav-links{display:flex;gap:28px;font-size:.93rem;color:var(--muted);font-weight:500}
+  .nav-links a:hover{color:var(--navy)}
+  .btn{white-space:nowrap}
+  @media(max-width:860px){.nav-links{display:none}}
+  @media(max-width:520px){
+    .nav-in{height:60px}
+    .logo{font-size:.98rem;gap:9px}
+    .logo .mark{width:30px;height:30px}
+    .logo span.y{display:none}
+    nav .btn{padding:10px 15px;font-size:.85rem}
+    nav .btn .icon{display:none}
+  }
+
+  /* HERO */
+  .hero{position:relative;padding:70px 0 46px;overflow:hidden}
+  .hero .blob.a{width:520px;height:520px;top:-160px;right:-120px}
+  .hero .blob.b{width:460px;height:460px;bottom:-220px;left:-150px}
+  .hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1.08fr .92fr;gap:46px;align-items:center}
+  @media(max-width:960px){.hero-grid{grid-template-columns:1fr;gap:34px}}
+  .pill{display:inline-flex;align-items:center;gap:9px;background:var(--glass-strong);border:1px solid var(--line);color:var(--navy);font-weight:600;font-size:.82rem;padding:8px 15px;border-radius:999px;margin-bottom:24px;backdrop-filter:blur(10px);box-shadow:var(--shadow)}
+  .pill .icon{width:15px;height:15px;color:var(--navy)}
+  .pill .dot{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px rgba(255,215,88,.35)}
+  h1.hero-title{font-size:clamp(2.6rem,5.8vw,4.4rem);font-weight:500;letter-spacing:-0.02em}
+  .hero-sub{color:var(--muted);font-size:1.12rem;margin-top:20px;max-width:520px}
+  .hero-sub strong{color:var(--navy)}
+  .method{display:flex;flex-wrap:wrap;gap:9px;margin-top:28px}
+  .method .m{display:inline-flex;align-items:center;gap:8px;font-family:'Inter';font-weight:600;font-size:.78rem;letter-spacing:.02em;color:var(--navy);background:var(--glass-strong);border:1px solid var(--line);padding:8px 13px;border-radius:10px;backdrop-filter:blur(8px)}
+  .method .m .icon{width:15px;height:15px;color:var(--navy)}
+  .method .arrow{display:inline-flex;align-items:center;color:var(--gold)}
+  .method .arrow .icon{width:16px;height:16px;stroke-width:2.4}
+  @media(max-width:520px){.method .arrow{display:none}}
+  .hero-meta{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap}
+  .hero-meta .hm{display:flex;align-items:center;gap:11px;background:var(--glass);border:1px solid rgba(255,255,255,.8);border-radius:14px;padding:12px 15px;backdrop-filter:blur(10px);box-shadow:var(--shadow)}
+  .hero-meta .hm .ic{width:38px;height:38px;border-radius:10px;background:var(--gold-soft);display:grid;place-items:center;flex-shrink:0}
+  .hero-meta .hm .ic .icon{color:var(--navy);width:20px;height:20px}
+  .hero-meta .hm b{display:block;font-family:'Inter';font-size:.98rem;color:var(--navy);font-weight:700;line-height:1.1}
+  .hero-meta .hm span{font-size:.8rem;color:var(--muted)}
+
+  /* FORM CARD */
+  .form-card{position:relative;border-radius:var(--radius);padding:32px;background:var(--glass-strong);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(255,255,255,.85);box-shadow:var(--shadow-lg)}
+  .form-card .cap{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);background:var(--gold);padding:6px 13px;border-radius:999px;margin-bottom:16px}
+  .form-card .cap .icon{width:14px;height:14px}
+  .form-card .cap .icon{width:14px;height:14px}
+  .form-card h3{font-size:1.7rem;font-weight:500}
+  .form-card p.k{color:var(--muted);font-size:.93rem;margin-top:8px;margin-bottom:22px}
+  .field{margin-bottom:15px}
+  .field label{display:block;font-size:.8rem;font-weight:600;color:var(--navy);margin-bottom:7px}
+  .field .inp{position:relative;display:flex;align-items:center}
+  .field .inp .icon{position:absolute;left:14px;width:18px;height:18px;color:var(--muted);pointer-events:none}
+  .field input{width:100%;background:rgba(255,255,255,.85);border:1.5px solid var(--line);border-radius:12px;padding:13px 14px 13px 42px;color:var(--ink);font-size:.98rem;font-family:inherit;transition:border-color .15s,box-shadow .15s}
+  .field input:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 4px rgba(3,1,100,.10)}
+  .field input::placeholder{color:#9498b5}
+  .field select{width:100%;background:rgba(255,255,255,.85);border:1.5px solid var(--line);border-radius:12px;padding:13px 40px 13px 42px;color:var(--ink);font-size:.98rem;font-family:inherit;appearance:none;-webkit-appearance:none;cursor:pointer;transition:border-color .15s,box-shadow .15s;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23030164' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'><path d='m6 9 6 6 6-6'/></svg>");background-repeat:no-repeat;background-position:right 14px center}
+  .field select:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 4px rgba(3,1,100,.10)}
+  .form-card .btn{width:100%;margin-top:8px;padding:15px}
+  .form-note{display:flex;align-items:center;justify-content:center;gap:7px;font-size:.78rem;color:var(--muted);margin-top:14px}
+  .form-note .icon{width:14px;height:14px}
+  .err{color:#d83a52;font-size:.78rem;margin-top:6px;display:none}
+  .success{display:none;text-align:center;padding:22px 6px}
+  .success .tick{width:70px;height:70px;border-radius:50%;background:var(--navy);display:grid;place-items:center;margin:0 auto 18px;box-shadow:0 12px 30px -8px rgba(3,1,100,.5)}
+  .success .tick .icon{color:var(--gold);width:34px;height:34px;stroke-width:2.5}
+  .success h3{font-size:1.55rem}
+  .success p{color:var(--muted);margin-top:10px;font-size:.95rem}
+
+  /* STATS */
+  .stats{position:relative;background:var(--navy);overflow:hidden}
+  .stats .blob{opacity:.4}
+  .stats .blob.g1{width:400px;height:400px;top:-180px;left:-80px;background:radial-gradient(circle,rgba(255,215,88,.6),transparent 70%)}
+  .stats-in{position:relative;z-index:2;display:grid;grid-template-columns:repeat(5,1fr);gap:14px;padding:38px 0}
+  @media(max-width:760px){.stats-in{grid-template-columns:repeat(2,1fr);gap:24px}}
+  .stat{text-align:center;color:#fff}
+  .stat b{display:block;font-family:'Fraunces',serif;font-size:clamp(1.9rem,3.8vw,2.7rem);font-weight:600;color:var(--gold)}
+  .stat span{color:rgba(255,255,255,.75);font-size:.85rem}
+
+  /* SECTIONS */
+  section.pad{position:relative;padding:88px 0;overflow:hidden}
+  .tint{background:var(--bg-tint)}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--navy);font-weight:700;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;background:var(--gold-soft);padding:6px 14px;border-radius:999px}
+  .eyebrow .icon{width:15px;height:15px}
+  .sec-title{font-size:clamp(2rem,4vw,2.9rem);font-weight:500;margin-top:16px;max-width:780px}
+  .sec-lead{color:var(--muted);margin-top:15px;max-width:660px;font-size:1.06rem}
+
+  /* WHY cards */
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:46px;position:relative;z-index:2}
+  @media(max-width:900px){.cards{grid-template-columns:1fr}}
+  .card{border-radius:var(--radius);padding:28px;background:var(--glass);backdrop-filter:blur(16px) saturate(150%);-webkit-backdrop-filter:blur(16px) saturate(150%);border:1px solid rgba(255,255,255,.8);box-shadow:var(--shadow);transition:transform .18s,box-shadow .18s}
+  .card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg)}
+  .card .ic{width:52px;height:52px;border-radius:14px;background:var(--navy);display:grid;place-items:center;margin-bottom:18px}
+  .card .ic .icon{color:var(--gold);width:26px;height:26px}
+  .card h3{font-size:1.18rem}
+  .card p{color:var(--muted);margin-top:9px;font-size:.95rem}
+
+  /* METHODOLOGY */
+  .journey{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:46px;position:relative;z-index:2}
+  @media(max-width:900px){.journey{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:520px){.journey{grid-template-columns:1fr}}
+  .step{border-radius:16px;padding:24px;background:var(--glass-strong);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.8);box-shadow:var(--shadow);transition:transform .18s}
+  .step:hover{transform:translateY(-5px)}
+  .step .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .step .ic{width:44px;height:44px;border-radius:12px;background:var(--gold-soft);display:grid;place-items:center}
+  .step .ic .icon{color:var(--navy);width:22px;height:22px}
+  .step .s{font-family:'Fraunces',serif;font-weight:600;color:var(--gold);font-size:1.7rem}
+  .step b{font-family:'Inter';display:block;font-size:1.05rem;color:var(--navy)}
+  .step small{color:var(--muted);font-size:.85rem}
+
+  /* TRACKS */
+  .tracks{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:46px;position:relative;z-index:2}
+  @media(max-width:900px){.tracks{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:560px){.tracks{grid-template-columns:1fr}}
+  .track{border-radius:16px;padding:20px;display:flex;gap:15px;align-items:flex-start;background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.8);box-shadow:var(--shadow);transition:transform .18s,box-shadow .18s}
+  .track:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+  .track .te{width:46px;height:46px;border-radius:12px;background:var(--navy);display:grid;place-items:center;flex-shrink:0}
+  .track .te .icon{color:var(--gold);width:24px;height:24px}
+  .track b{display:block;font-family:'Inter';font-size:1rem;font-weight:600;color:var(--navy)}
+  .track small{color:var(--muted);font-size:.84rem}
+  .track{cursor:pointer}
+  .track .go{width:18px;height:18px;color:var(--muted);margin-left:auto;align-self:center;flex-shrink:0;transition:transform .18s,color .18s}
+  .track:hover .go{color:var(--navy);transform:translateX(3px)}
+
+  /* WHO */
+  .chips{display:flex;flex-wrap:wrap;gap:11px;margin-top:38px;position:relative;z-index:2}
+  .chip{display:inline-flex;align-items:center;gap:9px;background:var(--glass-strong);border:1px solid rgba(255,255,255,.8);border-radius:999px;padding:10px 17px;font-size:.9rem;font-weight:500;color:var(--navy);backdrop-filter:blur(10px);box-shadow:var(--shadow);transition:transform .15s}
+  .chip:hover{transform:translateY(-3px)}
+  .chip .icon{width:17px;height:17px;color:var(--navy)}
+
+  /* VENUE */
+  .venue-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:44px;position:relative;z-index:2}
+  @media(max-width:840px){.venue-grid{grid-template-columns:1fr}}
+  .venue-card{border-radius:var(--radius);padding:32px;background:var(--glass-strong);backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);border:1px solid rgba(255,255,255,.85);box-shadow:var(--shadow)}
+  .venue-card h3{font-size:1.28rem;display:flex;align-items:center;gap:11px}
+  .venue-card h3 .ic{width:40px;height:40px;border-radius:11px;background:var(--navy);display:grid;place-items:center;flex-shrink:0}
+  .venue-card h3 .ic .icon{color:var(--gold);width:21px;height:21px}
+  .venue-card>p{color:var(--muted);margin-top:12px}
+  .dist{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+  .dist div{background:rgba(255,255,255,.7);border:1px solid var(--line);border-radius:12px;padding:15px}
+  .dist b{font-family:'Inter';font-size:1.3rem;display:block;color:var(--navy)}
+  .dist span{color:var(--muted);font-size:.82rem}
+  .venue-card .quote{color:var(--navy);margin-top:20px;font-family:'Inter';font-weight:600;font-size:1.02rem;line-height:1.4}
+
+  /* CTA */
+  .cta-sec{padding:24px 0 96px}
+  .cta{position:relative;overflow:hidden;background:var(--navy);border-radius:28px;padding:70px 40px;text-align:center;margin:0 22px}
+  .cta .blob{opacity:.45}
+  .cta .blob.c1{width:460px;height:460px;top:-200px;left:50%;transform:translateX(-50%);background:radial-gradient(circle,rgba(255,215,88,.7),transparent 70%)}
+  .cta h2{color:#fff;font-size:clamp(2.1rem,4.4vw,3.3rem);font-weight:500;position:relative;z-index:2}
+  .cta h2 .hl{color:var(--gold)}
+  .cta p{color:rgba(255,255,255,.8);margin:18px auto 32px;max-width:580px;font-size:1.1rem;position:relative;z-index:2}
+  .cta .btn{position:relative;z-index:2}
+
+  /* FOOTER */
+  footer{border-top:1px solid var(--line);padding:44px 0;color:var(--muted);font-size:.88rem;background:var(--bg-tint)}
+  .foot-in{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+  .tagline{font-family:'Inter';font-weight:700;color:var(--navy);letter-spacing:.01em;display:flex;align-items:center;gap:10px}
+  .tagline .icon{color:var(--navy);width:18px;height:18px}
+
+  .reveal{opacity:0;transform:translateY(34px);transition:opacity .8s cubic-bezier(.16,.8,.24,1),transform .8s cubic-bezier(.16,.8,.24,1)}
+  .reveal.in{opacity:1;transform:none}
+  #progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--gold);z-index:100;transition:width .12s linear}
+  @media(prefers-reduced-motion:reduce){.reveal{transition:none;opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<!-- ===== SVG ICON SPRITE ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5M3 17l9 5 9-5"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13A4 4 0 0 1 16 11"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0 5 5l-9 9a2.8 2.8 0 0 1-4-4l9-9-1 -1Z"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20Z"/></symbol>
+    <symbol id="i-handshake" viewBox="0 0 24 24"><path d="m11 17 2 2a1 1 0 0 0 1.4 0l3.6-3.6M9 11l-1.5 1.5a2 2 0 1 0 3 3L14 12"/><path d="m21 3-5 5-3-3-4 4M3 3l5 5"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
+    <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1h6c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2Z"/></symbol>
+    <symbol id="i-cog" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 1 1-4 0v-.1A1.6 1.6 0 0 0 7 19.4a1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0-1.1-2.7H1a2 2 0 1 1 0-4h.1A1.6 1.6 0 0 0 2.6 7a1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H7a1.6 1.6 0 0 0 1-1.5V1a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 2.7 1.1 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V7a1.6 1.6 0 0 0 1.5 1H23a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1Z"/></symbol>
+    <symbol id="i-trend" viewBox="0 0 24 24"><path d="m3 17 6-6 4 4 8-8M15 7h6v6"/></symbol>
+    <symbol id="i-rocket" viewBox="0 0 24 24"><path d="M4.5 16.5c-1.5 1.3-2 5-2 5s3.7-.5 5-2c.7-.8.7-2 0-2.8a2 2 0 0 0-3 0ZM12 15l-3-3a22 22 0 0 1 8-10c1.9 0 5 3.1 5 5a22 22 0 0 1-10 8ZM9 12H4s.5-2.8 2-4 4-1 4-1M12 15v5s2.8-.5 4-2 1-4 1-4"/></symbol>
+    <symbol id="i-crown" viewBox="0 0 24 24"><path d="m2 18 2-11 5 5 3-6 3 6 5-5 2 11H2Z"/><path d="M4 21h16"/></symbol>
+    <symbol id="i-landmark" viewBox="0 0 24 24"><path d="M3 22h18M4 10h16M12 2 3 7h18l-9-5ZM6 10v8M10 10v8M14 10v8M18 10v8"/></symbol>
+    <symbol id="i-scroll" viewBox="0 0 24 24"><path d="M8 3H6a2 2 0 0 0-2 2v13a3 3 0 0 0 3 3h11a2 2 0 0 0 2-2v-1H9M8 3h9a2 2 0 0 1 2 2v11H8V3Z"/></symbol>
+    <symbol id="i-sprout" viewBox="0 0 24 24"><path d="M7 20h10M12 20v-8M12 12c0-3-2-5-5-5 0 3 2 5 5 5ZM12 12c0-4 3-6 7-6 0 4-3 6-7 6Z"/></symbol>
+    <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 4 13c0-6 5-9 16-9 0 8-3 13-9 13ZM4 20c3-4 6-7 12-9"/></symbol>
+    <symbol id="i-car" viewBox="0 0 24 24"><path d="M5 13 6.5 8h11L19 13M5 13h14v5H5v-5ZM5 18v2M19 18v2"/><circle cx="8" cy="15" r="1"/><circle cx="16" cy="15" r="1"/></symbol>
+    <symbol id="i-pulse" viewBox="0 0 24 24"><path d="M22 12h-4l-3 8-6-16-3 8H2"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.5 8.5 8 11 4.5-2.5 8-6 8-11V5l-8-3Z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-factory" viewBox="0 0 24 24"><path d="M2 20h20V9l-6 4V9l-6 4V4H2v16ZM6 16h2M11 16h2M16 16h2"/></symbol>
+    <symbol id="i-puzzle" viewBox="0 0 24 24"><path d="M4 7h3a1.5 1.5 0 1 0 3 0h3v3a1.5 1.5 0 1 1 0 3v3h-3a1.5 1.5 0 1 0-3 0H4v-3a1.5 1.5 0 1 1 0-3V7Z"/></symbol>
+    <symbol id="i-cap" viewBox="0 0 24 24"><path d="m22 9-10-4L2 9l10 4 10-4ZM6 11v5c0 1 2.7 2.5 6 2.5s6-1.5 6-2.5v-5M22 9v6"/></symbol>
+    <symbol id="i-brief" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
+    <symbol id="i-scope" viewBox="0 0 24 24"><path d="M6 3v7a6 6 0 0 0 6 6 6 6 0 0 0 6-6V3M4 3h4M16 3h4M6 22h12M9 16v6M15 16v6"/></symbol>
+    <symbol id="i-tool" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0 5 5l-9 9a2.8 2.8 0 0 1-4-4l9-9-1-1Z"/><path d="m6 6 3 3"/></symbol>
+    <symbol id="i-tractor" viewBox="0 0 24 24"><path d="M4 17V7h6l2 5h5M4 12h8"/><circle cx="7" cy="18" r="3"/><circle cx="18" cy="17" r="4"/></symbol>
+    <symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20c1.1 0 2-.9 2-2 0-.5-.2-1-.6-1.4-.3-.4-.5-.8-.5-1.3 0-1.1.9-2 2-2h2.4A4.7 4.7 0 0 0 22 10.5C22 5.8 17.5 2 12 2Z"/><circle cx="7.5" cy="10.5" r="1"/><circle cx="12" cy="7.5" r="1"/><circle cx="16.5" cy="10.5" r="1"/></symbol>
+    <symbol id="i-scale" viewBox="0 0 24 24"><path d="M12 3v18M7 21h10M6 7l-3 7a3 3 0 0 0 6 0L6 7ZM18 7l-3 7a3 3 0 0 0 6 0l-3-7ZM4 7h16"/></symbol>
+    <symbol id="i-code" viewBox="0 0 24 24"><path d="m8 6-6 6 6 6M16 6l6 6-6 6"/></symbol>
+    <symbol id="i-cpu" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/></symbol>
+    <symbol id="i-bridge" viewBox="0 0 24 24"><path d="M2 8s3 4 10 4 10-4 10-4M2 8v10M22 8v10M8 12v6M16 12v6M2 18h20"/></symbol>
+    <symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 22V4M4 4c3-2 7 2 10 0v9c-3 2-7-2-10 0"/></symbol>
+  </defs>
+</svg>
+
+<nav>
+  <div class="wrap nav-in">
+    <div class="logo"><span class="mark"><svg class="icon"><use href="#i-bolt"/></svg></span>LEAD<b>ATHON</b>&nbsp;<span class="y">2026</span></div>
+    <div class="nav-links">
+      <a href="#why">Why</a>
+      <a href="#method">Method</a>
+      <a href="#tracks">Tracks</a>
+      <a href="#who">Who Can Join</a>
+      <a href="#venue">Venue</a>
+    </div>
+    <a href="#register" class="btn">Register Interest <svg class="icon"><use href="#i-arrow"/></svg></a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="blob gold a"></div>
+  <div class="blob soft b"></div>
+  <div class="wrap hero-grid">
+    <div>
+      <span class="pill"><span class="dot"></span> Youth Empowerment &amp; Innovation Hackathon · 2026</span>
+      <h1 class="hero-title">Don't just tell us.<br><span class="gold-text">Build it.</span></h1>
+      <p class="hero-sub">LEADATHON 2026 challenges young innovators to solve real-world problems with working prototypes — hardware, software, AI, robotics or anything it takes. An initiative of the <strong>We The Leaders Foundation</strong>.</p>
+      <div class="method">
+        <span class="m"><svg class="icon"><use href="#i-search"/></svg>IDENTIFY</span>
+        <span class="arrow"><svg class="icon"><use href="#i-arrow"/></svg></span>
+        <span class="m"><svg class="icon"><use href="#i-bulb"/></svg>IDEATE</span>
+        <span class="arrow"><svg class="icon"><use href="#i-arrow"/></svg></span>
+        <span class="m"><svg class="icon"><use href="#i-wrench"/></svg>INNOVATE</span>
+        <span class="arrow"><svg class="icon"><use href="#i-arrow"/></svg></span>
+        <span class="m"><svg class="icon"><use href="#i-check"/></svg>IMPLEMENT</span>
+        <span class="arrow"><svg class="icon"><use href="#i-arrow"/></svg></span>
+        <span class="m"><svg class="icon"><use href="#i-trend"/></svg>IMPACT</span>
+      </div>
+      <div class="hero-meta">
+        <div class="hm"><span class="ic"><svg class="icon"><use href="#i-pin"/></svg></span><div><b>Manapparai</b><span>Central Tamil Nadu</span></div></div>
+        <div class="hm"><span class="ic"><svg class="icon"><use href="#i-layers"/></svg></span><div><b>13 Tracks</b><span>60+ Problem Statements</span></div></div>
+        <div class="hm"><span class="ic"><svg class="icon"><use href="#i-users"/></svg></span><div><b>Teams of 1–5</b><span>Any discipline</span></div></div>
+      </div>
+    </div>
+
+    <!-- FORM -->
+    <div class="form-card" id="register">
+      <div id="formView">
+        <span class="cap"><svg class="icon"><use href="#i-spark"/></svg> Team Registration · Step 1 of 4</span>
+        <h3>Start your registration</h3>
+        <p class="k">Tell us about your team. You'll add each participant's details on the next step.</p>
+        <form id="regForm" novalidate>
+          <div class="field">
+            <label for="teamName">Team Name</label>
+            <div class="inp"><svg class="icon"><use href="#i-users"/></svg><input type="text" id="teamName" name="teamName" placeholder="e.g. Team Innovators" autocomplete="organization" /></div>
+            <div class="err" id="err-teamName">Please enter your team name.</div>
+          </div>
+          <div class="field">
+            <label for="count">Number of Participants</label>
+            <div class="inp"><svg class="icon"><use href="#i-user"/></svg>
+              <select id="count" name="count">
+                <option value="">Select team size</option>
+                <option value="1">1 — Solo</option>
+                <option value="2">2 members</option>
+                <option value="3">3 members</option>
+                <option value="4">4 members</option>
+                <option value="5">5 members</option>
+              </select>
+            </div>
+            <div class="err" id="err-count">Select how many participants (1–5).</div>
+          </div>
+          <button type="submit" class="btn" id="submitBtn">Continue to Registration <svg class="icon"><use href="#i-arrow"/></svg></button>
+          <p class="form-note"><svg class="icon"><use href="#i-lock"/></svg> Teams of 1–5 · Add each member's details next.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="blob g1"></div>
+  <div class="wrap stats-in">
+    <div class="stat"><b>1,000+</b><span>Young Innovators</span></div>
+    <div class="stat"><b>20,000+</b><span>Visitors</span></div>
+    <div class="stat"><b>13</b><span>Challenge Tracks</span></div>
+    <div class="stat"><b>60+</b><span>Problem Statements</span></div>
+    <div class="stat"><b>50+</b><span>Working Prototypes</span></div>
+  </div>
+</div>
+
+<!-- WHY -->
+<section class="pad" id="why">
+  <div class="blob soft" style="width:360px;height:360px;top:40px;right:-140px"></div>
+  <div class="wrap">
+    <p class="eyebrow reveal"><svg class="icon"><use href="#i-spark"/></svg> Why LEADATHON</p>
+    <h2 class="sec-title reveal">A conventional hackathon asks "what can you code in 48 hours?" We ask something bigger.</h2>
+    <p class="sec-lead reveal">"What important problem can you solve — and can you build something that proves it?" This isn't about slides. It's about working solutions that create measurable impact.</p>
+    <div class="cards">
+      <div class="card reveal"><div class="ic"><svg class="icon"><use href="#i-wrench"/></svg></div><h3>Beyond Coding</h3><p>Hardware, AI, robotics, IoT, machinery, products or hybrid — build whatever the problem actually demands.</p></div>
+      <div class="card reveal"><div class="ic"><svg class="icon"><use href="#i-globe"/></svg></div><h3>Local Problems, Global Potential</h3><p>A solution built for one village or town can scale to a state, a nation, or the world.</p></div>
+      <div class="card reveal"><div class="ic"><svg class="icon"><use href="#i-handshake"/></svg></div><h3>Cross-Disciplinary</h3><p>Students, professionals, farmers, designers and entrepreneurs — no single background owns innovation.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- METHODOLOGY -->
+<section class="pad tint" id="method">
+  <div class="blob gold" style="width:340px;height:340px;bottom:-160px;left:-120px;opacity:.35"></div>
+  <div class="wrap">
+    <p class="eyebrow reveal"><svg class="icon"><use href="#i-layers"/></svg> The Methodology</p>
+    <h2 class="sec-title reveal">Five stages — from a problem that matters to impact the world can see.</h2>
+    <div class="journey">
+      <div class="step reveal"><div class="top"><span class="ic"><svg class="icon"><use href="#i-search"/></svg></span><span class="s">01</span></div><b>Identify</b><small>Find a problem that matters. Understand who it affects and why.</small></div>
+      <div class="step reveal"><div class="top"><span class="ic"><svg class="icon"><use href="#i-bulb"/></svg></span><span class="s">02</span></div><b>Ideate</b><small>Think of a better way. Challenge assumptions, explore approaches.</small></div>
+      <div class="step reveal"><div class="top"><span class="ic"><svg class="icon"><use href="#i-wrench"/></svg></span><span class="s">03</span></div><b>Innovate</b><small>Build something real — a functional, tangible solution.</small></div>
+      <div class="step reveal"><div class="top"><span class="ic"><svg class="icon"><use href="#i-check"/></svg></span><span class="s">04</span></div><b>Implement</b><small>Prove it works in a realistic environment.</small></div>
+      <div class="step reveal"><div class="top"><span class="ic"><svg class="icon"><use href="#i-trend"/></svg></span><span class="s">05</span></div><b>Impact</b><small>Measure the difference. Show who benefits and how it scales.</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- TRACKS -->
+<section class="pad" id="tracks">
+  <div class="blob soft" style="width:380px;height:380px;top:0;left:-160px"></div>
+  <div class="wrap">
+    <p class="eyebrow reveal"><svg class="icon"><use href="#i-puzzle"/></svg> 13 Challenge Tracks</p>
+    <h2 class="sec-title reveal">Pick your arena. From the impossible to the everyday.</h2>
+    <p class="sec-lead reveal">Critical sectors and unconventional frontiers — over 60 problem statements waiting to be solved.</p>
+    <div class="tracks">
+      <a class="track reveal" href="/track?slug=impossible-to-possible"><span class="te"><svg class="icon"><use href="#i-rocket"/></svg></span><div><b>The Impossible to Possible</b><small>Moonshots — zero road deaths, near-zero food waste &amp; more.</small></div><svg class="icon go"><use href="#i-arrow"/></svg></a>
+      <a class="track reveal" href="/track?slug=statesmanship-leadership"><span class="te"><svg class="icon"><use href="#i-crown"/></svg></span><div><b>Statesmanship &amp; Leadership</b><small>Decision engines, crisis command centres, leadership simulators.</small></div><svg class="icon go"><use href="#i-arrow"/></svg></a>
+      <a class="track reveal" href="/track?slug=good-governance"><span class="te"><svg class="icon"><use href="#i-landmark"/></svg></span><div><b>Good Governance</b><small>One-stop citizen services, transparency &amp; scheme matching.</small></div><svg class="icon go"><use href="#i-arrow"/></svg></a>
+      <a class="track reveal" href="/track?slug=tamil-culture-heritage"><span class="te"><svg class="icon"><use href="#i-scroll"/></svg></span><div><b>Tamil Culture &amp; Heritage</b><small>Living Tamil language AI, digital preservation, Tamil to the world.</small></div><svg class="icon go"><use href="#i-arrow"/></svg></a>
+      <a class="track reveal" href="/track?slug=india-for-the-world"><span class="te"><svg class="icon"><use href="#i-globe"/></svg></span><div><b>India for the World</b><small>Affordable healthcare, climate &amp; education for low-resource settings.</small></div><svg class="icon go"><use href="#i-arrow"/></svg></a>
+      <a class="track reveal" href="/track?slug=agriculture-rural-development"><span class="te"><svg class="icon"><use href="#i-sprout"/></svg></span><div><b>Agriculture &amp; Rural Development</b><small>Smart irrigation, farm-to-market, crop health early warning.</small></div><svg class="icon go"><use href="#i-arrow"/></svg></a>
+      <a class="track reveal" href="/track?slug=environment-climate"><span class="te"><svg class="icon"><use href="#i-leaf"/></svg></span><div><b>Environment &amp; Climate</b><small>Waste-to-resource, water guardians, heat-proof communities.</small></div><svg class="icon go"><use href="#i-arrow"/></svg></a>
+      <a class="track reveal" href="/track?slug=road-safety-mobility"><span class="te"><svg class="icon"><use href="#i-car"/></svg></span><div><b>Road Safety &amp; Mobility</b><small>Accident prevention, smart helmets, safe-route intelligence.</small></div><svg class="icon go"><use href="#i-arrow"/></svg></a>
+      <a class="track reveal" href="/track?slug=public-health"><span class="te"><svg class="icon"><use href="#i-pulse"/></svg></span><div><b>Public Health</b><small>Portable screening, rural health connect, medicine safety.</small></div><svg class="icon go"><use href="#i-arrow"/></svg></a>
+      <a class="track reveal" href="/track?slug=cyber-safety-digital-society"><span class="te"><svg class="icon"><use href="#i-shield"/></svg></span><div><b>Cyber Safety &amp; Digital Society</b><small>Scam shields, deepfake detectors, digital literacy.</small></div><svg class="icon go"><use href="#i-arrow"/></svg></a>
+      <a class="track reveal" href="/track?slug=manufacturing-entrepreneurship"><span class="te"><svg class="icon"><use href="#i-factory"/></svg></span><div><b>Manufacturing &amp; Entrepreneurship</b><small>Affordable automation, predictive maintenance, zero-waste.</small></div><svg class="icon go"><use href="#i-arrow"/></svg></a>
+      <a class="track reveal" href="/track?slug=civic-community-development"><span class="te"><svg class="icon"><use href="#i-users"/></svg></span><div><b>Civic &amp; Community Development</b><small>Problem scanners, emergency networks, resource exchange.</small></div><svg class="icon go"><use href="#i-arrow"/></svg></a>
+      <a class="track reveal" href="/track?slug=unsolved-problem"><span class="te"><svg class="icon"><use href="#i-puzzle"/></svg></span><div><b>The Unsolved Problem</b><small>Freedom to choose — but building is mandatory.</small></div><svg class="icon go"><use href="#i-arrow"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<!-- WHO -->
+<section class="pad tint" id="who">
+  <div class="blob gold" style="width:320px;height:320px;top:-120px;right:-120px;opacity:.35"></div>
+  <div class="wrap">
+    <p class="eyebrow reveal"><svg class="icon"><use href="#i-users"/></svg> Who Can Participate</p>
+    <h2 class="sec-title reveal">Your background doesn't define the problem you can solve. Your ability to build does.</h2>
+    <p class="sec-lead reveal">No specific qualification required. Form a team of 1–5 across institutions and disciplines.</p>
+    <div class="chips">
+      <span class="chip reveal"><svg class="icon"><use href="#i-cap"/></svg>School Students</span>
+      <span class="chip reveal"><svg class="icon"><use href="#i-cap"/></svg>College &amp; University Students</span>
+      <span class="chip reveal"><svg class="icon"><use href="#i-brief"/></svg>Young Professionals</span>
+      <span class="chip reveal"><svg class="icon"><use href="#i-rocket"/></svg>Startup Founders</span>
+      <span class="chip reveal"><svg class="icon"><use href="#i-scope"/></svg>Researchers &amp; Innovators</span>
+      <span class="chip reveal"><svg class="icon"><use href="#i-tool"/></svg>Makers &amp; Creators</span>
+      <span class="chip reveal"><svg class="icon"><use href="#i-tractor"/></svg>Young Farmers</span>
+      <span class="chip reveal"><svg class="icon"><use href="#i-palette"/></svg>Designers</span>
+      <span class="chip reveal"><svg class="icon"><use href="#i-scale"/></svg>Law &amp; Governance Students</span>
+      <span class="chip reveal"><svg class="icon"><use href="#i-code"/></svg>Developers</span>
+      <span class="chip reveal"><svg class="icon"><use href="#i-cpu"/></svg>Engineers</span>
+    </div>
+  </div>
+</section>
+
+<!-- VENUE -->
+<section class="pad" id="venue">
+  <div class="blob soft" style="width:400px;height:400px;bottom:-160px;right:-160px"></div>
+  <div class="wrap">
+    <p class="eyebrow reveal"><svg class="icon"><use href="#i-pin"/></svg> The Venue</p>
+    <h2 class="sec-title reveal">Manapparai — where Tamil Nadu's young minds meet the world's problems.</h2>
+    <div class="venue-grid">
+      <div class="venue-card reveal">
+        <h3><span class="ic"><svg class="icon"><use href="#i-pin"/></svg></span> Strategically central</h3>
+        <p>Positioned in the heart of Tamil Nadu — a natural meeting point for urban, semi-urban and rural youth. Innovation shouldn't belong only to metros.</p>
+        <div class="dist">
+          <div><b>~360 km</b><span>Chennai · North</span></div>
+          <div><b>~360 km</b><span>Kanyakumari · South</span></div>
+          <div><b>~200 km</b><span>Coimbatore · West</span></div>
+          <div><b>~200 km</b><span>Vedaranyam · East</span></div>
+        </div>
+      </div>
+      <div class="venue-card reveal">
+        <h3><span class="ic"><svg class="icon"><use href="#i-bridge"/></svg></span> A rural–urban innovation bridge</h3>
+        <p>Manapparai is more than a venue — it's part of the laboratory. Its region embodies the real challenges LEADATHON tackles:</p>
+        <div class="chips" style="margin-top:16px">
+          <span class="chip"><svg class="icon"><use href="#i-sprout"/></svg>Agriculture</span>
+          <span class="chip"><svg class="icon"><use href="#i-leaf"/></svg>Water &amp; Environment</span>
+          <span class="chip"><svg class="icon"><use href="#i-car"/></svg>Road Safety</span>
+          <span class="chip"><svg class="icon"><use href="#i-brief"/></svg>Local Enterprise</span>
+        </div>
+        <p class="quote">A young innovator from a village can stand on the same stage as a student from a major institution.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec">
+  <div class="cta">
+    <div class="blob c1"></div>
+    <h2>One problem. One idea. One solution.<br><span class="hl">Potentially millions of lives.</span></h2>
+    <p>Registrations open soon. Be first to know — and turn your idea into something the world can use.</p>
+    <a href="#register" class="btn gold" style="padding:15px 34px;font-size:1.05rem">Register Your Interest <svg class="icon"><use href="#i-arrow"/></svg></a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-in">
+    <div>
+      <div class="tagline"><svg class="icon"><use href="#i-bolt"/></svg> LEADATHON 2026 — DON'T JUST TELL US. BUILD IT.</div>
+      <div style="margin-top:8px">An initiative of the We The Leaders Foundation · Manapparai, Tamil Nadu</div>
+    </div>
+    <a href="#register" class="btn ghost">Register Interest <svg class="icon"><use href="#i-arrow"/></svg></a>
+  </div>
+</footer>
+
+<script>
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach((e)=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach((el,i)=>{ el.style.transitionDelay=(i%3*70)+'ms'; io.observe(el); });
+
+  const form = document.getElementById('regForm');
+  const show = id => document.getElementById(id).style.display='block';
+  const hide = id => document.getElementById(id).style.display='none';
+
+  form.addEventListener('submit', (ev)=>{
+    ev.preventDefault();
+    ['err-teamName','err-count'].forEach(hide);
+    const teamName = document.getElementById('teamName').value.trim();
+    const count = document.getElementById('count').value;
+    let ok = true;
+    if(teamName.length < 2){ show('err-teamName'); ok=false; }
+    if(!count){ show('err-count'); ok=false; }
+    if(!ok) return;
+    try{ sessionStorage.setItem('leadathon_team', JSON.stringify({ teamName, count: Number(count) })); }catch(e){}
+    window.location.href = '/register';
+  });
+</script>
+</body>
+</html>
