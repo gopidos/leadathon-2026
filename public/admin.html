@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
 <style>
   :root{
     --navy:#030164;--navy-2:#0a0a7a;--gold:#FFD758;--gold-soft:#FCE59A;
@@ -126,6 +127,9 @@
   .modal .box p{color:var(--muted);font-size:.85rem;margin-bottom:16px}
   .modal .qr{display:inline-block;padding:14px;background:#fff;border:1px solid var(--line);border-radius:14px}
   .modal .box .btn{margin-top:16px}
+  #scanStatus{font-size:.92rem;color:var(--muted);margin-bottom:14px;min-height:1.3em;font-weight:500}
+  #scanStatus.ok{color:var(--green)}#scanStatus.err{color:#c0263c}
+  #reader video{border-radius:14px}
 </style>
 </head>
 <body>
@@ -135,6 +139,7 @@
   <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z"/></symbol>
   <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
   <symbol id="i-scan" viewBox="0 0 24 24"><path d="M4 7V5a1 1 0 0 1 1-1h2M17 4h2a1 1 0 0 1 1 1v2M20 17v2a1 1 0 0 1-1 1h-2M7 20H5a1 1 0 0 1-1-1v-2M4 12h16"/></symbol>
+  <symbol id="i-cam" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2Z"/><circle cx="12" cy="13" r="4"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
   <symbol id="i-out" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
   <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></symbol>
@@ -177,12 +182,24 @@
 
     <div class="toolbar">
       <div class="search"><svg class="icon"><use href="#i-search"/></svg><input id="q" placeholder="Search team, name, email, problem…" oninput="render()" /></div>
-      <div class="scan"><svg class="icon"><use href="#i-scan"/></svg><input id="scan" placeholder="Scan / paste QR to check in" onkeydown="if(event.key==='Enter')scanCheckin()" /><button class="btn green sm" onclick="scanCheckin()">Check in</button></div>
+      <button class="btn green" onclick="openScanner()"><svg class="icon"><use href="#i-cam"/></svg> Scan QR (camera)</button>
+      <div class="scan"><svg class="icon"><use href="#i-scan"/></svg><input id="scan" placeholder="or paste QR token" onkeydown="if(event.key==='Enter')scanCheckin()" /><button class="btn green sm" onclick="scanCheckin()">Check in</button></div>
     </div>
 
     <div id="list"></div>
   </div>
 </main>
+
+<div class="modal" id="scanModal" onclick="if(event.target===this)closeScanner()">
+  <div class="box" style="max-width:380px">
+    <h3>Scan to check in</h3>
+    <p id="scanStatus">Point the camera at a participant's QR pass.</p>
+    <div id="reader" style="width:100%;max-width:320px;margin:0 auto;border-radius:14px;overflow:hidden;background:#000"></div>
+    <div style="display:flex;gap:10px;justify-content:center;margin-top:16px">
+      <button class="btn ghost sm" onclick="closeScanner()">Done</button>
+    </div>
+  </div>
+</div>
 
 <div class="modal" id="qrModal" onclick="if(event.target===this)closeQr()">
   <div class="box">
@@ -309,6 +326,55 @@
       updateLocal(j.participant);
       toast(action==='in'?'Checked in':action==='out'?'Checked out':'Reset');
     }catch(e){ toast(e.message||'Action failed', true); }
+  }
+
+  // ---- Camera QR scanner (mobile check-in) ----
+  let html5Qr = null;
+  let lastScan = { text:'', at:0 };
+  async function openScanner(){
+    const modal = $('#scanModal'); modal.classList.add('show');
+    setScanStatus('Starting camera…');
+    if(typeof Html5Qrcode === 'undefined'){ setScanStatus('Scanner failed to load. Use the paste box.', 'err'); return; }
+    try{
+      html5Qr = new Html5Qrcode('reader', { verbose:false });
+      await html5Qr.start(
+        { facingMode: 'environment' },
+        { fps: 10, qrbox: { width: 230, height: 230 } },
+        onScan,
+        ()=>{}
+      );
+      setScanStatus('Point the camera at a participant’s QR pass.');
+    }catch(e){
+      setScanStatus('Cannot open camera: '+(e && e.message ? e.message : e)+'. Allow camera access, or use the paste box.', 'err');
+    }
+  }
+  function setScanStatus(msg, cls){ const el=$('#scanStatus'); el.className = cls||''; el.innerHTML = msg; }
+
+  let scanBusy = false;
+  async function onScan(text){
+    const now = Date.now();
+    if(scanBusy) return;
+    if(text === lastScan.text && now - lastScan.at < 4000) return; // debounce same code
+    lastScan = { text, at: now };
+    scanBusy = true;
+    if(navigator.vibrate) navigator.vibrate(60);
+    try{
+      const j = await api('/api/admin/checkin',{method:'POST',body:JSON.stringify({ token:text, action:'in' })});
+      if(!j.ok) throw new Error(j.error);
+      updateLocal(j.participant);
+      const nm = j.participant && j.participant.name ? j.participant.name : '';
+      setScanStatus('✓ Checked in: <b>'+esc(nm)+'</b> — ready for next', 'ok');
+      toast('Checked in'+(nm?': '+nm:''));
+    }catch(e){
+      setScanStatus('✗ '+(e.message||'Not found')+' — try again', 'err');
+      toast(e.message||'Not found', true);
+    }finally{
+      setTimeout(()=>{ scanBusy = false; }, 1200);
+    }
+  }
+  async function closeScanner(){
+    if(html5Qr){ try{ await html5Qr.stop(); html5Qr.clear(); }catch(_){} html5Qr = null; }
+    $('#scanModal').classList.remove('show');
   }
 
   async function scanCheckin(){
