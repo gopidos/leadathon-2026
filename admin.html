@@ -87,15 +87,21 @@
   .team.open .team-h .chev{transform:rotate(180deg)}
   .team-body{display:none;border-top:1px solid var(--line);padding:8px 22px 18px}
   .team.open .team-body{display:block}
-  .prob{color:var(--muted);font-size:.85rem;padding:12px 0;border-bottom:1px dashed var(--line)}
-  .prob b{color:var(--navy)}
+  .prob{padding:14px 0 6px;border-bottom:1px dashed var(--line)}
+  .prob .plabel{display:block;font-size:.64rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#a2a6bf;margin-bottom:3px}
+  .prob b{color:var(--navy);font-size:.95rem}
+  .prob .idea{margin-top:8px;color:var(--muted);font-size:.85rem}
+  .subhead{font-size:.68rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:14px 0 2px}
 
   .p{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
   .p:last-child{border-bottom:none}
   .p .av{width:38px;height:38px;border-radius:10px;background:var(--navy);color:var(--gold);display:grid;place-items:center;font-weight:700;font-size:.85rem;flex-shrink:0}
   .p .info{min-width:180px;flex:1}
-  .p .info .nm{font-weight:600;color:var(--navy);font-size:.95rem;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-  .p .info .dt{color:var(--muted);font-size:.8rem}
+  .p .info .nm{font-weight:600;color:var(--navy);font-size:.98rem;display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+  .p .fields{display:flex;flex-wrap:wrap;gap:7px 20px}
+  .p .f{display:flex;flex-direction:column;line-height:1.25}
+  .p .fl{font-size:.62rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#a2a6bf}
+  .p .fv{font-size:.86rem;color:var(--ink)}
   .p .lead{font-size:.66rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#b98900}
   .status{font-size:.74rem;font-weight:700;padding:4px 11px;border-radius:999px;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
   .status .dot{width:7px;height:7px;border-radius:50%}
@@ -253,12 +259,16 @@
     if(!teams.length){ $('#list').innerHTML = '<div class="empty">No registrations found.</div>'; return; }
     $('#list').innerHTML = teams.map(r=>{
       const parts = (r.participants||[]).map(p=>{
-        const inst = p.institution ? ' · '+esc(p.institution) : '';
         return `<div class="p">
           <div class="av">${p.idx}</div>
           <div class="info">
             <div class="nm">${esc(p.name)} ${p.idx===1?'<span class="lead">Lead</span>':''}</div>
-            <div class="dt">${esc(p.phone)} · ${esc(p.email)} · ${esc(p.profile)}${inst}</div>
+            <div class="fields">
+              <div class="f"><span class="fl">Phone</span><span class="fv">${esc(p.phone)}</span></div>
+              <div class="f"><span class="fl">Email</span><span class="fv">${esc(p.email)}</span></div>
+              <div class="f"><span class="fl">Profile</span><span class="fv">${esc(p.profile)}</span></div>
+              ${p.institution?`<div class="f"><span class="fl">Institution</span><span class="fv">${esc(p.institution)}</span></div>`:''}
+            </div>
           </div>
           <span class="status ${p.status}"><span class="dot"></span>${statusLabel(p.status)}</span>
           <div class="acts">
@@ -280,7 +290,12 @@
           <svg class="icon chev"><use href="#i-chev"/></svg>
         </div>
         <div class="team-body">
-          <div class="prob"><b>${esc(r.problem_code||'')} ${esc(r.problem_title||'')}</b>${r.idea_summary?' — '+esc(r.idea_summary):''}</div>
+          <div class="prob">
+            <span class="plabel">Problem statement · ${esc(r.problem_category||'')}</span>
+            <b>${esc(r.problem_code||'')} ${esc(r.problem_title||'')}</b>
+            ${r.idea_summary?`<div class="idea"><span class="plabel">Idea summary</span>${esc(r.idea_summary)}</div>`:''}
+          </div>
+          <div class="subhead">Participants (${(r.participants||[]).length})</div>
           ${parts}
         </div>
       </div>`;
