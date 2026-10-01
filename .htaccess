@@ -1,0 +1,24 @@
+# LEADATHON 2026 — Apache config for PHP/HTML hosting.
+# Deploy layout: the CONTENTS of public/ go in the docroot root, alongside
+# this file, api/, lib/, vendor/, schema.sql and composer.json/.lock as siblings.
+# (See README.md "Deploy (PHP / FTP hosting)" for the exact upload mapping.)
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # /api/foo -> api/foo.php, /api/admin/foo -> api/admin/foo.php
+  RewriteCond %{REQUEST_URI} ^/api/
+  RewriteCond %{REQUEST_FILENAME}\.php -f
+  RewriteRule ^(.*)$ $1.php [L]
+
+  # Extensionless pages: /register -> register.html, /track -> track.html, etc.
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME}\.html -f
+  RewriteRule ^(.*)$ $1.html [L]
+</IfModule>
+
+# Never serve these directly, even if someone requests the exact path.
+<FilesMatch "(^\.env.*|\.sql$|composer\.(json|lock))$">
+  Require all denied
+</FilesMatch>

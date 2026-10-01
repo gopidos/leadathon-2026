@@ -31,8 +31,10 @@ module.exports = async (req, res) => {
   else { setSql = 'status = ?, checked_in_at = NULL, checked_out_at = NULL'; setParams = ['registered']; }
 
   try {
-    const result = await query(`UPDATE participants SET ${setSql} WHERE ${whereCol} = ?`, [...setParams, whereVal]);
-    if (!result.affectedRows) return res.status(404).json({ ok: false, error: 'Participant not found' });
+    // Note: affectedRows reflects *changed* rows (MySQL default), not *matched* rows,
+    // so a repeated no-op action (e.g. "reset" twice) would wrongly look like "not
+    // found" if checked here. Existence is determined solely by the SELECT below.
+    await query(`UPDATE participants SET ${setSql} WHERE ${whereCol} = ?`, [...setParams, whereVal]);
     const rows = await query(`SELECT * FROM participants WHERE ${whereCol} = ?`, [whereVal]);
     if (!rows.length) return res.status(404).json({ ok: false, error: 'Participant not found' });
     res.status(200).json({ ok: true, participant: rows[0] });

@@ -1,0 +1,9 @@
+{
+    "require": {
+        "php": "^8.2",
+        "ext-pdo": "*",
+        "ext-gd": "*",
+        "ext-curl": "*",
+        "chillerlan/php-qrcode": "^6.0"
+    }
+}
