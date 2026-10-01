@@ -1,6 +1,6 @@
 // Vercel serverless function — POST /api/register
-// Deploys automatically on Vercel (free tier). Reads Supabase credentials from
-// Vercel Environment Variables: SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY.
+// Reads MySQL credentials from environment variables: DB_HOST, DB_PORT, DB_NAME,
+// DB_USER, DB_PASSWORD (or a single DATABASE_URL).
 
 const { handleRegistration } = require('../lib/register-core');
 

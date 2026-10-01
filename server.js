@@ -78,6 +78,7 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(PORT, () => {
-  const mode = process.env.SUPABASE_URL ? 'Supabase' : 'local file (registrations.json)';
+  const hasDb = !!(process.env.DATABASE_URL || (process.env.DB_HOST && process.env.DB_USER && process.env.DB_NAME));
+  const mode = hasDb ? 'MySQL' : 'local file (registrations.json)';
   console.log(`\n  ⚡ LEADATHON 2026\n     Site:  http://localhost:${PORT}\n     Admin: http://localhost:${PORT}/admin\n     Storage: ${mode}\n`);
 });

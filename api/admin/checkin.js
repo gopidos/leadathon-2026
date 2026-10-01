@@ -1,6 +1,6 @@
 // POST /api/admin/checkin { participantId? , token? , action: 'in'|'out'|'reset' } (admin only)
 const { isAdmin } = require('../../lib/admin-auth');
-const { sbUpdate } = require('../../lib/supabase');
+const { query } = require('../../lib/db');
 
 // Accept a raw token or a full verify URL containing ?t=<token>
 function normalizeToken(t) {
@@ -19,18 +19,21 @@ module.exports = async (req, res) => {
   const token = normalizeToken(b && b.token);
   if (!['in', 'out', 'reset'].includes(action)) return res.status(400).json({ ok: false, error: 'Invalid action' });
 
-  let query;
-  if (participantId) query = `?id=eq.${encodeURIComponent(participantId)}`;
-  else if (token) query = `?qr_token=eq.${encodeURIComponent(token)}`;
+  let whereCol, whereVal;
+  if (participantId) { whereCol = 'id'; whereVal = participantId; }
+  else if (token) { whereCol = 'qr_token'; whereVal = token; }
   else return res.status(400).json({ ok: false, error: 'participantId or token required' });
 
-  const now = new Date().toISOString();
-  const patch = action === 'in' ? { status: 'checked_in', checked_in_at: now }
-    : action === 'out' ? { status: 'checked_out', checked_out_at: now }
-    : { status: 'registered', checked_in_at: null, checked_out_at: null };
+  const now = new Date();
+  let setSql, setParams;
+  if (action === 'in') { setSql = 'status = ?, checked_in_at = ?'; setParams = ['checked_in', now]; }
+  else if (action === 'out') { setSql = 'status = ?, checked_out_at = ?'; setParams = ['checked_out', now]; }
+  else { setSql = 'status = ?, checked_in_at = NULL, checked_out_at = NULL'; setParams = ['registered']; }
 
   try {
-    const rows = await sbUpdate('participants', query + '&select=*,registrations(team_name)', patch);
+    const result = await query(`UPDATE participants SET ${setSql} WHERE ${whereCol} = ?`, [...setParams, whereVal]);
+    if (!result.affectedRows) return res.status(404).json({ ok: false, error: 'Participant not found' });
+    const rows = await query(`SELECT * FROM participants WHERE ${whereCol} = ?`, [whereVal]);
     if (!rows.length) return res.status(404).json({ ok: false, error: 'Participant not found' });
     res.status(200).json({ ok: true, participant: rows[0] });
   } catch (e) {

@@ -1,13 +1,18 @@
 // GET /api/admin/registrations -> all teams with participants + stats. (admin only)
 const { isAdmin } = require('../../lib/admin-auth');
-const { sbSelect } = require('../../lib/supabase');
+const { query } = require('../../lib/db');
 
 module.exports = async (req, res) => {
   if (!isAdmin(req)) return res.status(401).json({ ok: false, error: 'Unauthorized' });
   try {
-    const data = await sbSelect('registrations', '?select=*,participants(*)&order=created_at.desc');
-    data.forEach((r) => { if (Array.isArray(r.participants)) r.participants.sort((a, b) => a.idx - b.idx); });
-    const parts = data.reduce((acc, r) => acc.concat(r.participants || []), []);
+    const regs = await query('SELECT * FROM registrations ORDER BY created_at DESC');
+    const parts = await query('SELECT * FROM participants ORDER BY idx ASC');
+    const byReg = new Map();
+    for (const p of parts) {
+      if (!byReg.has(p.registration_id)) byReg.set(p.registration_id, []);
+      byReg.get(p.registration_id).push(p);
+    }
+    const data = regs.map((r) => ({ ...r, participants: byReg.get(r.id) || [] }));
     const stats = {
       teams: data.length,
       participants: parts.length,
